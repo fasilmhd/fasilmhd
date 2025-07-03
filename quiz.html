@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmic Quiz – Wonders Galaxy</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Base Styles */
+    body {
+      background: #0d1b2a;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      text-align: center;
+      padding: 20px;
+    }
+    header h1 {
+      margin-bottom: 10px;
+    }
+    nav {
+      text-align: center;
+      margin-top: 12px;
+    }
+    nav a {
+      color: #ffd700;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #ff9800;
+      color: black;
+    }
+    main {
+      padding: 30px 20px;
+      min-height: 70vh;
+    }
+    footer {
+      background: #1e3c72;
+      text-align: center;
+      padding: 12px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+    /* Quiz Container */
+    #quiz-container {
+      background: #1b263b;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      position: relative;
+    }
+    .question {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .options li {
+      margin: 10px 0;
+    }
+    .option-btn {
+      background: #415a77;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      width: 100%;
+      max-width: 300px;
+    }
+    .option-btn:hover {
+      transform: scale(1.05);
+      background: #ffb703;
+    }
+    
+    .feedback {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      height: 30px;
+    }
+    
+  
+
+    .result {
+      font-size: 1.5rem;
+      margin-top: 20px;
+    }
+
+    .restart-btn {
+      margin-top: 20px;
+      background: #ff9800;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: #000;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .restart-btn:hover {
+      transform: scale(1.05);
+    }
+  </style>
+  
+  <script>
+    // Cosmic Quiz JavaScript
+
+    const quizData = [
+      {
+        question: "What is the largest planet in our solar system?",
+        options: ["Earth", "Jupiter", "Saturn", "Neptune"],
+        answer: "Jupiter"
+      },
+      {
+        question: "Which planet is known as the 'Red Planet'?",
+        options: ["Mars", "Mercury", "Venus", "Jupiter"],
+        answer: "Mars"
+      },
+      {
+        question: "What is the closest star to Earth?",
+        options: ["Proxima Centauri", "The Sun", "Sirius", "Alpha Centauri"],
+        answer: "The Sun"
+      },
+      {
+        question: "Which galaxy do we reside in?",
+        options: ["Andromeda", "Milky Way", "Sombrero", "Whirlpool"],
+        answer: "Milky Way"
+      },
+      {
+        question: "What force keeps the planets in orbit around the Sun?",
+        options: ["Magnetism", "Gravity", "Wind", "Centrifugal Force"],
+        answer: "Gravity"
+      },
+      {
+        question: "Which planet is famous for its rings?",
+        options: ["Uranus", "Neptune", "Saturn", "Mars"],
+        answer: "Saturn"
+      },
+      {
+        question: "What is a light-year?",
+        options: ["The time taken for light to travel one year", "The distance light covers in one year", "Speed of light", "A unit of time"],
+        answer: "The distance light covers in one year"
+      },
+      {
+        question: "Who proposed the heliocentric model of the solar system?",
+        options: ["Galileo Galilei", "Nicolaus Copernicus", "Johannes Kepler", "Isaac Newton"],
+        answer: "Nicolaus Copernicus"
+      },
+      {
+        question: "What phenomenon causes the apparent backward motion of planets?",
+        options: ["Retrograde motion", "Spinning", "Gravity", "Orbit irregularity"],
+        answer: "Retrograde motion"
+      },
+      {
+        question: "What is the most abundant element in the universe?",
+        options: ["Oxygen", "Helium", "Hydrogen", "Carbon"],
+        answer: "Hydrogen"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const quizContainer = document.getElementById("quiz-container");
+      const currentData = quizData[currentQuestion];
+
+      // Clear previous content
+      quizContainer.innerHTML = "";
+
+      // Create and add the question element with animation
+      const questionEl = document.createElement("div");
+      questionEl.className = "question fade-in";
+      questionEl.textContent = currentData.question;
+      quizContainer.appendChild(questionEl);
+
+      // Create the options list
+      const optionsList = document.createElement("ul");
+      optionsList.className = "options";
+      currentData.options.forEach(option => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = option;
+        btn.onclick = () => selectOption(option);
+        li.appendChild(btn);
+        optionsList.appendChild(li);
+      });
+      quizContainer.appendChild(optionsList);
+
+      // Feedback container for correct/incorrect message
+      const feedbackEl = document.createElement("div");
+      feedbackEl.className = "feedback";
+      quizContainer.appendChild(feedbackEl);
+    }
+
+    function selectOption(selected) {
+      const quizContainer = document.getElementById("quiz-container");
+      const currentData = quizData[currentQuestion];
+      const feedbackEl = quizContainer.querySelector(".feedback");
+
+      if (selected === currentData.answer) {
+        score++;
+        feedbackEl.textContent = "Correct!";
+        feedbackEl.classList.add("bounce");
+      } else {
+        feedbackEl.textContent = "Incorrect! The correct answer is: " + currentData.answer;
+        feedbackEl.classList.add("bounce");
+      }
+
+      // Move to next question after a delay for the animation
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          loadQuestion();
+        } else {
+          showResult();
+        }
+      }, 1500);
+    }
+
+    function showResult() {
+      const quizContainer = document.getElementById("quiz-container");
+      quizContainer.innerHTML = "";
+
+      const resultEl = document.createElement("div");
+      resultEl.className = "result fade-in";
+      resultEl.innerHTML = "Quiz Completed!<br>Your Score: " + score + " / " + quizData.length;
+      quizContainer.appendChild(resultEl);
+
+      const restartBtn = document.createElement("button");
+      restartBtn.className = "restart-btn";
+      restartBtn.textContent = "Restart Quiz";
+      restartBtn.onclick = restartQuiz;
+      quizContainer.appendChild(restartBtn);
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      loadQuestion();
+    }
+
+    document.addEventListener("DOMContentLoaded", loadQuestion);
+  </script>
+</head>
+<body>
+  <header>
+    <h1>🚀 Cosmic Quiz</h1>
+    <p>Test your space knowledge, have fun, and learn along the way!</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+  
+  <main>
+    <div id="quiz-container"></div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Wonders Galaxy | Cosmic Quiz by Paru</p>
+  </footer>
+</body>
+</html>

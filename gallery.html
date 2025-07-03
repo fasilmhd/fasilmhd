@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Paru" />
+  <title>Gallery – Wonders Galaxy</title>
+  <!-- External CSS for general styling and gallery-specific rules -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="gallery.css" />
+  <!-- External JS: common functions and gallery-specific script -->
+  <script defer src="script.js"></script>
+  <script defer src="gallery.js"></script>
+</head>
+<body>
+  <header class="fade-in">
+    <div class="header-content">
+      <h1>🌌 Wonders Galaxy Gallery</h1>
+      <p>Explore stunning cosmic images</p>
+      <nav class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="gallery.html" class="active">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Gallery Section -->
+    <section class="gallery fade-in">
+      <h2>Our Cosmic Collection</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="Images/milkyway.jpg" alt="Milky Way" title="Milky Way" />
+        </div>
+        <div class="gallery-item">
+          <img src="Images/image1.webp" alt="Andromeda Galaxy" title="Andromeda Galaxy" />
+        </div>
+        <div class="gallery-item">
+          <img src="Images/nebula.webp" alt="Nebula" title="Nebula" />
+        </div>
+        <div class="gallery-item">
+          <img src="Images/spiral.jpg" alt="Spiral Galaxy" title="Spiral Galaxy" />
+        </div>
+        <div class="gallery-item">
+          <img src="Images/dust.jpg" alt="Cosmic Dust" title="Cosmic Dust" />
+        </div>
+        <div class="gallery-item">
+          <img src="Images/star.jpg" alt="Star Cluster" title="Star Cluster" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox (hidden by default) -->
+    <section class="lightbox hidden">
+      <span class="close">&times;</span>
+      <img class="lightbox-content" src="Images/image3.jpg" alt="Expanded view" />
+      <div class="caption"></div>
+    </section>
+  </main>
+
+  <footer class="fade-in">
+    <p>&copy; 2025 Wonders Galaxy | Gallery by Paru ✨</p>
+  </footer>
+</body>
+</html>
